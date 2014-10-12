@@ -14,7 +14,7 @@
     </parent>
     <packaging>jar</packaging>
     <artifactId>neo4j</artifactId>
-
+    <name>scaling-software:z-axis:neo4j</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.data</groupId>

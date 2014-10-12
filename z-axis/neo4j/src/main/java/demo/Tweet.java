@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NodeEntity
-public  class Tweet {
+public class Tweet {
     @GraphId
     Long id;
 

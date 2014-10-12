@@ -11,6 +11,7 @@
     </parent>
     <packaging>jar</packaging>
     <artifactId>redis</artifactId>
+    <name>scaling-software:z-axis:redis</name>
 
     <dependencies>
 
@@ -20,7 +21,7 @@
             <artifactId>spring-data-redis</artifactId>
         </dependency>
 
-       
+
     </dependencies>
 
 

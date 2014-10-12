@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -46,13 +45,13 @@ public class Application {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-     @Bean
+    @Bean
     CommandLineRunner places(PlaceService placeService, PlaceRepository placeRepository) {
         return args -> {
 
             logger.info("loading places..");
             Arrays.asList("Walgreens", "Philz Coffee", "Starbucks").forEach(
-                    q -> placeService.loadPlaces(q).forEach( placeId -> System.out.println(placeRepository.findOne(placeId))));
+                    q -> placeService.loadPlaces(q).forEach(placeId -> System.out.println(placeRepository.findOne(placeId))));
 
             Place place = placeRepository.findOne("175060592519769");
             logger.info("finding places near " + place.getStreet() + ", " + place.getCity() + ", "

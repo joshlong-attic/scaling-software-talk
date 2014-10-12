@@ -10,7 +10,7 @@
     </parent>
     <packaging>jar</packaging>
     <artifactId>mongodb</artifactId>
-
+    <name>scaling-software:z-axis:mongodb</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

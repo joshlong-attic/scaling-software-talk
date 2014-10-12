@@ -182,17 +182,20 @@ class Client
   _parseConnect: (args...) ->
     headers = {}
     switch args.length
-    when 2
-      [headers, connectCallback] = args
-    when 3
-      if args[1] instanceof Function
-        [headers, connectCallback, errorCallback] = args
-      else
-        [headers.login, headers.passcode, connectCallback] = args
-    when 4
-      [headers.login, headers.passcode, connectCallback, errorCallback] = args
+    when
+    2
+    [headers, connectCallback] = args
+    when
+    3
+    if args[1] instanceof Function
+      [headers, connectCallback, errorCallback] = args
     else
-      [headers.login, headers.passcode, connectCallback, errorCallback, headers.host] = args
+      [headers.login, headers.passcode, connectCallback] = args
+    when
+    4
+    [headers.login, headers.passcode, connectCallback, errorCallback] = args
+    else
+    [headers.login, headers.passcode, connectCallback, errorCallback, headers.host] = args
 
     [headers, connectCallback, errorCallback]
 
@@ -232,13 +235,15 @@ class Client
       for frame in Frame.unmarshall(data)
         switch frame.command
         # [CONNECTED Frame](http://stomp.github.com/stomp-specification-1.1.html#CONNECTED_Frame)
-        when "CONNECTED"
-          @debug? "connected to server #{frame.headers.server}"
-          @connected = true
-          @_setupHeartbeat(frame.headers)
-          @connectCallback? frame
+        when
+        "CONNECTED"
+        @debug? "connected to server #{frame.headers.server}"
+        @connected = true
+        @_setupHeartbeat(frame.headers)
+        @connectCallback? frame
         # [MESSAGE Frame](http://stomp.github.com/stomp-specification-1.1.html#MESSAGE)
-        when "MESSAGE"
+        when
+        "MESSAGE"
         # the `onreceive` callback is registered when the client calls
         # `subscribe()`.
         # If there is registered subscription for the received message,
@@ -246,20 +251,20 @@ class Client
         # This is useful for subscriptions that are automatically created
         # on the browser side (e.g. [RabbitMQ's temporary
         # queues](http://www.rabbitmq.com/stomp.html)).
-          subscription = frame.headers.subscription
-          onreceive = @subscriptions[subscription] or @onreceive
-          if onreceive
-            client = this
-            messageID = frame.headers["message-id"]
-            # add `ack()` and `nack()` methods directly to the returned frame
-            # so that a simple call to `message.ack()` can acknowledge the message.
-            frame.ack = (headers = {}) =>
-              client.ack messageID, subscription, headers
-            frame.nack = (headers = {}) =>
-              client.nack messageID, subscription, headers
-            onreceive frame
-          else
-            @debug? "Unhandled received MESSAGE: #{frame}"
+        subscription = frame.headers.subscription
+        onreceive = @subscriptions[subscription] or @onreceive
+        if onreceive
+          client = this
+          messageID = frame.headers["message-id"]
+          # add `ack()` and `nack()` methods directly to the returned frame
+          # so that a simple call to `message.ack()` can acknowledge the message.
+          frame.ack = (headers = {}) =>
+            client.ack messageID, subscription, headers
+          frame.nack = (headers = {}) =>
+            client.nack messageID, subscription, headers
+          onreceive frame
+        else
+          @debug? "Unhandled received MESSAGE: #{frame}"
         # [RECEIPT Frame](http://stomp.github.com/stomp-specification-1.1.html#RECEIPT)
         #
         # The client instance can set its `onreceipt` field to a function taking
@@ -270,13 +275,15 @@ class Client
         #       receiptID = frame.headers['receipt-id'];
         #       ...
         #     }
-        when "RECEIPT"
-          @onreceipt?(frame)
+        when
+        "RECEIPT"
+        @onreceipt?(frame)
         # [ERROR Frame](http://stomp.github.com/stomp-specification-1.1.html#ERROR)
-        when "ERROR"
-          errorCallback?(frame)
+        when
+        "ERROR"
+        errorCallback?(frame)
         else
-          @debug? "Unhandled frame: #{frame}"
+        @debug? "Unhandled frame: #{frame}"
     @ws.onclose = =>
       msg = "Whoops! Lost connection to #{@ws.url}"
       @debug?(msg)

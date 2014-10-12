@@ -10,6 +10,7 @@
         <artifactId>x-axis</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <name>scaling-software:x-axis:aggressive-consumer</name>
     <packaging>pom</packaging>
     <artifactId>aggressive-consumer</artifactId>
     <modules>

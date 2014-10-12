@@ -9,6 +9,8 @@
     </parent>
     <packaging>pom</packaging>
     <artifactId>x-axis</artifactId>
+    <name>scaling-software:x-axis</name>
+
     <modules>
         <module>aggressive-consumer</module>
     </modules>

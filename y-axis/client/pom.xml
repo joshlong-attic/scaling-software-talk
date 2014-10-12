@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>
-         </dependency>
+        </dependency>
         <dependency>
             <groupId>org.projectreactor</groupId>
             <artifactId>reactor-net</artifactId>

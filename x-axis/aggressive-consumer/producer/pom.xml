@@ -8,5 +8,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
+    <name>scaling-software:x-axis:aggressive-consumer:producer</name>
+
     <artifactId>producer</artifactId>
- </project>
+</project>

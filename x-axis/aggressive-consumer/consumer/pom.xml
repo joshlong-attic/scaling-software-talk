@@ -7,6 +7,8 @@
         <artifactId>aggressive-consumer</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <name>scaling-software:x-axis:aggressive-consumer:consumer</name>
+
     <packaging>jar</packaging>
     <artifactId>consumer</artifactId>
 </project>
