@@ -1,0 +1,15 @@
+---
+applications:
+- name: account-service
+  memory: 512M
+  instances: 1
+  host: account-service-${random-word}
+  domain: cfapps.io
+  path: target/account-service.jar
+  services:
+    - doge-postgres
+    - config-service
+  env:
+    SPRING_PROFILES_DEFAULT: cloud
+    DEBUG: "true"
+    debug: "true"

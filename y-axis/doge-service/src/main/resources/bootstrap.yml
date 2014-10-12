@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: doge-service
+
+---
+spring:
+  profiles: cloud
+  cloud:
+    config:
+      uri: ${vcap.services.config-service.credentials.uri}

@@ -1,0 +1,14 @@
+
+
+server:
+  port: 8081
+
+
+logging:
+  level:
+    com.netflix.discovery: 'OFF'
+
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
