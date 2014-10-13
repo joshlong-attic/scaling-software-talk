@@ -15,9 +15,7 @@ import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
 
-/**
- * @author Josh Long
- */
+
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
@@ -26,9 +24,7 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-
         LoggerFactory.getLogger(Application.class).info("Started consumer.");
-
     }
 
     @Bean

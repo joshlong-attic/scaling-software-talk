@@ -56,7 +56,8 @@ public class Application {
             Place place = placeRepository.findOne("175060592519769");
             logger.info("finding places near " + place.getStreet() + ", " + place.getCity() + ", "
                     + place.getState() + ", " + place.getZip());
-            placeService.placesNear(place.getId(), 1).forEach(p -> System.out.println(p.toString()));
+            placeService.placesNear(place.getId(), 1)
+                    .forEach(p -> System.out.println(p.toString()));
         };
     }
 

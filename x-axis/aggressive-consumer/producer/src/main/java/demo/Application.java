@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * @author Josh Long
- */
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
@@ -41,7 +38,8 @@ class Producer {
     @RequestMapping(value = "/flood", method = RequestMethod.GET)
     public void flood(@RequestParam(defaultValue = "Mark") String name) {
         for (int i = 0; i < 100; i++)
-            logger.info("received reply: " + this.rabbitTemplate.convertSendAndReceive("pings", name));
+            logger.info("received reply: " +
+                    this.rabbitTemplate.convertSendAndReceive("pings", name + " " + i));
     }
 
     @Autowired

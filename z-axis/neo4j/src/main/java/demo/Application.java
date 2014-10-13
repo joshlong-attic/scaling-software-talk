@@ -68,8 +68,10 @@ public class Application extends Neo4jConfiguration {
                                TwitterTemplate twitterTemplate) {
         return args -> {
 
+            // reset db
             neo4jTemplate.query("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r", null);
 
+            // search for tweets matching query ('@SpringBoot')
             SearchResults results = twitterTemplate.searchOperations().search("@SpringBoot", 200);
 
             results.getTweets().stream().map(source -> {
@@ -94,7 +96,8 @@ public class Application extends Neo4jConfiguration {
 
 interface UserRepository extends GraphRepository<User> {
 
-    @Query("MATCH (me:User {user:{name}})-[:POSTED]->(tweet)-[:MENTIONS]->(user)" +
+    @Query("MATCH (me:User {user:{name}})-[:POSTED]->" +
+            "(tweet)-[:MENTIONS]->(user)" +
             " WHERE me <> user " +
             " RETURN distinct user")
     Set<User> suggestFriends(@Param("name") String user);

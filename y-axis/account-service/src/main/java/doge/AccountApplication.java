@@ -45,7 +45,8 @@ public class AccountApplication extends RepositoryRestMvcConfiguration {
 
 
 @Component
-class AccountResourceProcessor implements ResourceProcessor<Resource<Account>> {
+class AccountResourceProcessor
+        implements ResourceProcessor<Resource<Account>> {
 
     private final DogeClient dogeClient;
 
