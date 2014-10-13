@@ -13,5 +13,6 @@
 
     <modules>
         <module>aggressive-consumer</module>
+        <module>session</module>
     </modules>
 </project>

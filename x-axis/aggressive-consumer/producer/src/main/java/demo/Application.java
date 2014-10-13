@@ -2,6 +2,7 @@ package demo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @ComponentScan
 @EnableAutoConfiguration
 public class Application {
+
     public static void main(String[] args) {
+
         SpringApplication.run(Application.class, args);
 
         LoggerFactory.getLogger(Application.class).info("Started producer. " +
