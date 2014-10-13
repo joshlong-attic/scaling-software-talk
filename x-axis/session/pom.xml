@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <spring-integration-java-dsl.version>1.0.0.M3</spring-integration-java-dsl.version>
+    </properties>
+    <parent>
+        <groupId>scaling-software</groupId>
+        <artifactId>x-axis</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <name>scaling-software:x-axis:session</name>
+    <packaging>pom</packaging>
+    <artifactId>session</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session</artifactId>
+            <version>1.0.0.BUILD-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <spring-integration-java-dsl.version>1.0.0.M3</spring-integration-java-dsl.version>
+    </properties>
+    <parent>
+        <groupId>scaling-software</groupId>
+        <artifactId>x-axis</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <name>scaling-software:x-axis:aggressive-consumer</name>
+    <packaging>pom</packaging>
+    <artifactId>aggressive-consumer</artifactId>
+    <modules>
+        <module>producer</module>
+        <module>consumer</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-amqp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-java-dsl</artifactId>
+            <version>${spring-integration-java-dsl.version}</version>
+        </dependency>
+    </dependencies>
+</project>
