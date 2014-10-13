@@ -121,7 +121,6 @@ class DogePhotoResourceProcessor implements ResourceProcessor<Resource<DogePhoto
         String id = dogePhoto.getId();
         resource.add(new Link(ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/doges/{key}/photos/{id}/photo").buildAndExpand(key, id).toString(), "photo"));
-
         return resource;
     }
 }
