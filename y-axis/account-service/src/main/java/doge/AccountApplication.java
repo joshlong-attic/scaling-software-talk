@@ -1,4 +1,4 @@
-package demo;
+package doge;
 
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.DiscoveryClient;
@@ -31,7 +31,7 @@ import javax.persistence.Id;
 @EnableConfigurationProperties
 @EnableHystrix
 @EnableEurekaClient
-public class Application extends RepositoryRestMvcConfiguration {
+public class AccountApplication extends RepositoryRestMvcConfiguration {
 
     @Override
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
@@ -39,7 +39,7 @@ public class Application extends RepositoryRestMvcConfiguration {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(AccountApplication.class, args);
     }
 }
 

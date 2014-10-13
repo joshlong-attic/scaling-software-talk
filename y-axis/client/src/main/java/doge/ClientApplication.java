@@ -1,17 +1,24 @@
-package demo;
+package doge;
 
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+
+import javax.jms.ConnectionFactory;
 
 /**
  * the client uses <A href="https://github.com/Netflix/zuul">Netflix's Zuul proxy</A>
@@ -31,16 +38,16 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @EnableAutoConfiguration
 @EnableZuulProxy
 @EnableWebSocketMessageBroker
-public class Application extends AbstractWebSocketMessageBrokerConfigurer {
+public class ClientApplication extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/demo").withSockJS();
+        registry.addEndpoint("/doge").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic/");
+     registry.enableSimpleBroker("/topic/");
  /*       registry.enableStompBrokerRelay("/topic,/queue")
                 .setRelayHost("127.0.0.1")
                 .setRelayPort(61613)
@@ -73,7 +80,7 @@ public class Application extends AbstractWebSocketMessageBrokerConfigurer {
 */
 
     public static void main(String args[]) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(ClientApplication.class, args);
     }
 
 }

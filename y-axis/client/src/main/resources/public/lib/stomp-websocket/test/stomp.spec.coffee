@@ -11,33 +11,27 @@ describe "Stomp", ->
     client.connect("guest", "guest", ->
       connected = true
     )
-    waitsFor ->
-      connected
-    runs ->
-      expect(client.connected).toBe(true)
-
+    waitsFor -> connected
+    runs -> expect(client.connected).toBe(true)
+  
   it "lets you connect to a server and get a callback", ->
     client = Stomp.client("ws://mocked/stomp/server")
     connected = false
     client.connect("guest", "guest", ->
       connected = true
     )
-    waitsFor ->
-      connected
-    runs ->
-      expect(client.connected).toBe(true)
-
+    waitsFor -> connected
+    runs -> expect(client.connected).toBe(true)
+  
   it "lets you subscribe to a destination", ->
     client = Stomp.client("ws://mocked/stomp/server")
     subscription = null
     client.connect("guest", "guest", ->
       subscription = client.subscribe("/queue/test")
     )
-    waitsFor ->
-      subscription
-    runs ->
-      expect(Object.keys(client.ws.subscriptions)).toContain(subscription.id)
-
+    waitsFor -> subscription
+    runs -> expect(Object.keys(client.ws.subscriptions)).toContain(subscription.id)
+  
   it "lets you publish a message to a destination", ->
     client = Stomp.client("ws://mocked/stomp/server")
     message = null
@@ -45,11 +39,9 @@ describe "Stomp", ->
       message = "Hello world!"
       client.send("/queue/test", {}, message)
     )
-    waitsFor ->
-      message
-    runs ->
-      expect(client.ws.messages).toContain(message)
-
+    waitsFor -> message
+    runs -> expect(client.ws.messages).toContain(message)
+  
   it "lets you unsubscribe from a destination", ->
     client = Stomp.client("ws://mocked/stomp/server")
     unsubscribed = false
@@ -59,11 +51,9 @@ describe "Stomp", ->
       subscription.unsubscribe()
       unsubscribed = true
     )
-    waitsFor ->
-      unsubscribed
-    runs ->
-      expect(Object.keys(client.ws.subscriptions)).not.toContain(subscription.id)
-
+    waitsFor -> unsubscribed
+    runs -> expect(Object.keys(client.ws.subscriptions)).not.toContain(subscription.id)
+    
   it "lets you receive messages only while subscribed", ->
     client = Stomp.client("ws://mocked/stomp/server")
     subscription = null
@@ -73,27 +63,25 @@ describe "Stomp", ->
         messages.push(msg)
       )
     )
-    waitsFor ->
-      subscription
+    waitsFor -> subscription
     runs ->
       client.ws.test_send(subscription.id, Math.random())
       client.ws.test_send(subscription.id, Math.random())
       expect(messages.length).toEqual(2)
       subscription.unsubscribe()
       try
-        client.ws.test_send(id, Math.random())
+        client.ws.test_send(id, Math.random()) 
       catch err
         null
       expect(messages.length).toEqual(2)
-
+  
   it "lets you send messages in a transaction", ->
     client = Stomp.client("ws://mocked/stomp/server")
     connected = false
     client.connect("guest", "guest", ->
       connected = true
     )
-    waitsFor ->
-      connected
+    waitsFor -> connected
     runs ->
       txid = "123"
       client.begin(txid)
@@ -103,15 +91,14 @@ describe "Stomp", ->
       client.send("/queue/test", {transaction: txid}, "messages 3")
       client.commit(txid)
       expect(client.ws.messages.length).toEqual(3)
-
+  
   it "lets you abort a transaction", ->
     client = Stomp.client("ws://mocked/stomp/server")
     connected = false
     client.connect("guest", "guest", ->
       connected = true
     )
-    waitsFor ->
-      connected
+    waitsFor -> connected
     runs ->
       txid = "123"
       client.begin(txid)

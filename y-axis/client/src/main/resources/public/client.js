@@ -61,8 +61,8 @@ define([ 'require', 'angular' ], function (require, angular) {
                     fileFormDataName: 'file'
                 }).success(function (data, status, headers, config) {
 
-                    var imgUrl = headers('Location');
-                    console.log('the returned Location: header is : ' + imgUrl)
+                    var imgUrl =  headers ('Location');
+                    console.log('the returned Location: header is : ' + imgUrl )
 
                     $scope.uploads.push(imgUrl);
 

@@ -1,3 +1,4 @@
+
 # **STOMP Over Web Socket** is a JavaScript STOMP Client using
 # [HTML5 Web Sockets API](http://www.w3.org/TR/websockets).
 #
@@ -21,18 +22,18 @@
 
 # Define constants for bytes used throughout the code.
 Byte =
-# LINEFEED byte (octet 10)
+  # LINEFEED byte (octet 10)
   LF: '\x0A'
-# NULL byte (octet 0)
+  # NULL byte (octet 0)
   NULL: '\x00'
 
 # ##[STOMP Frame](http://stomp.github.com/stomp-specification-1.1.html#STOMP_Frames) Class
 class Frame
   # Frame constructor
-  constructor: (@command, @headers = {}, @body = '') ->
+  constructor: (@command, @headers={}, @body='') ->
 
-    # Provides a textual representation of the frame
-    # suitable to be sent to the server
+  # Provides a textual representation of the frame
+  # suitable to be sent to the server
   toString: ->
     lines = [@command]
     for own name, value of @headers
@@ -42,7 +43,7 @@ class Frame
     return lines.join(Byte.LF)
 
   # Unmarshall a single STOMP frame from a `data` string
-  unmarshallSingle = (data) ->
+  unmarshallSingle= (data) ->
     # search for 2 consecutives LF byte to split the command
     # and headers from the body
     divider = data.search(///#{Byte.LF}#{Byte.LF}///)
@@ -50,8 +51,8 @@ class Frame
     command = headerLines.shift()
     headers = {}
     # utility function to trim any whitespace before and after a string
-    trim = (str) ->
-      str.replace(/^\s+|\s+$/g, '')
+    trim= (str) ->
+      str.replace(/^\s+|\s+$/g,'')
     # Parse headers in reverse order so that for repeated headers, the 1st
     # value is used
     for line in headerLines.reverse()
@@ -102,16 +103,16 @@ class Client
     @connected = false
     # Heartbeat properties of the client
     @heartbeat = {
-    # send heartbeat every 10s by default (value is in ms)
+      # send heartbeat every 10s by default (value is in ms)
       outgoing: 10000
-    # expect to receive server heartbeat at least every 10s by default
-    # (value in ms)
+      # expect to receive server heartbeat at least every 10s by default
+      # (value in ms)
       incoming: 10000
     }
     # maximum *WebSocket* frame size sent by the client. If the STOMP frame
     # is bigger than this value, the STOMP frame will be sent using multiple
     # WebSocket frames (default is 16KiB)
-    @maxWebSocketFrameSize = 16 * 1024
+    @maxWebSocketFrameSize = 16*1024
     # subscription callbacks indexed by subscriber's ID
     @subscriptions = {}
 
@@ -130,9 +131,9 @@ class Client
   #     };
   debug: (message) ->
     window?.console?.log message
-
+    
   # Utility method to get the current timestamp (Date.now is not defined in IE8)
-  now = ->
+  now= ->
     Date.now || new Date().valueOf
 
   # Base method to transmit any stomp frame
@@ -182,20 +183,17 @@ class Client
   _parseConnect: (args...) ->
     headers = {}
     switch args.length
-    when
-    2
-    [headers, connectCallback] = args
-    when
-    3
-    if args[1] instanceof Function
-      [headers, connectCallback, errorCallback] = args
-    else
-      [headers.login, headers.passcode, connectCallback] = args
-    when
-    4
-    [headers.login, headers.passcode, connectCallback, errorCallback] = args
-    else
-    [headers.login, headers.passcode, connectCallback, errorCallback, headers.host] = args
+      when 2
+        [headers, connectCallback] = args
+      when 3
+        if args[1] instanceof Function
+          [headers, connectCallback, errorCallback] = args
+        else
+          [headers.login, headers.passcode, connectCallback] = args
+      when 4
+        [headers.login, headers.passcode, connectCallback, errorCallback] = args
+      else
+        [headers.login, headers.passcode, connectCallback, errorCallback, headers.host] = args
 
     [headers, connectCallback, errorCallback]
 
@@ -234,62 +232,58 @@ class Client
       # Handle STOMP frames received from the server
       for frame in Frame.unmarshall(data)
         switch frame.command
-        # [CONNECTED Frame](http://stomp.github.com/stomp-specification-1.1.html#CONNECTED_Frame)
-        when
-        "CONNECTED"
-        @debug? "connected to server #{frame.headers.server}"
-        @connected = true
-        @_setupHeartbeat(frame.headers)
-        @connectCallback? frame
-        # [MESSAGE Frame](http://stomp.github.com/stomp-specification-1.1.html#MESSAGE)
-        when
-        "MESSAGE"
-        # the `onreceive` callback is registered when the client calls
-        # `subscribe()`.
-        # If there is registered subscription for the received message,
-        # we used the default `onreceive` method that the client can set.
-        # This is useful for subscriptions that are automatically created
-        # on the browser side (e.g. [RabbitMQ's temporary
-        # queues](http://www.rabbitmq.com/stomp.html)).
-        subscription = frame.headers.subscription
-        onreceive = @subscriptions[subscription] or @onreceive
-        if onreceive
-          client = this
-          messageID = frame.headers["message-id"]
-          # add `ack()` and `nack()` methods directly to the returned frame
-          # so that a simple call to `message.ack()` can acknowledge the message.
-          frame.ack = (headers = {}) =>
-            client.ack messageID, subscription, headers
-          frame.nack = (headers = {}) =>
-            client.nack messageID, subscription, headers
-          onreceive frame
-        else
-          @debug? "Unhandled received MESSAGE: #{frame}"
-        # [RECEIPT Frame](http://stomp.github.com/stomp-specification-1.1.html#RECEIPT)
-        #
-        # The client instance can set its `onreceipt` field to a function taking
-        # a frame argument that will be called when a receipt is received from
-        # the server:
-        #
-        #     client.onreceipt = function(frame) {
-        #       receiptID = frame.headers['receipt-id'];
-        #       ...
-        #     }
-        when
-        "RECEIPT"
-        @onreceipt?(frame)
-        # [ERROR Frame](http://stomp.github.com/stomp-specification-1.1.html#ERROR)
-        when
-        "ERROR"
-        errorCallback?(frame)
-        else
-        @debug? "Unhandled frame: #{frame}"
-    @ws.onclose = =>
+          # [CONNECTED Frame](http://stomp.github.com/stomp-specification-1.1.html#CONNECTED_Frame)
+          when "CONNECTED"
+            @debug? "connected to server #{frame.headers.server}"
+            @connected = true
+            @_setupHeartbeat(frame.headers)
+            @connectCallback? frame
+          # [MESSAGE Frame](http://stomp.github.com/stomp-specification-1.1.html#MESSAGE)
+          when "MESSAGE"
+            # the `onreceive` callback is registered when the client calls
+            # `subscribe()`.
+            # If there is registered subscription for the received message,
+            # we used the default `onreceive` method that the client can set.
+            # This is useful for subscriptions that are automatically created
+            # on the browser side (e.g. [RabbitMQ's temporary
+            # queues](http://www.rabbitmq.com/stomp.html)).
+            subscription = frame.headers.subscription
+            onreceive = @subscriptions[subscription] or @onreceive
+            if onreceive
+              client = this
+              messageID = frame.headers["message-id"]
+              # add `ack()` and `nack()` methods directly to the returned frame
+              # so that a simple call to `message.ack()` can acknowledge the message.
+              frame.ack = (headers = {}) =>
+                client .ack messageID , subscription, headers
+              frame.nack = (headers = {}) =>
+                client .nack messageID, subscription, headers
+              onreceive frame
+            else
+              @debug? "Unhandled received MESSAGE: #{frame}"
+          # [RECEIPT Frame](http://stomp.github.com/stomp-specification-1.1.html#RECEIPT)
+          #
+          # The client instance can set its `onreceipt` field to a function taking
+          # a frame argument that will be called when a receipt is received from
+          # the server:
+          #
+          #     client.onreceipt = function(frame) {
+          #       receiptID = frame.headers['receipt-id'];
+          #       ...
+          #     }
+          when "RECEIPT"
+            @onreceipt?(frame)
+          # [ERROR Frame](http://stomp.github.com/stomp-specification-1.1.html#ERROR)
+          when "ERROR"
+            errorCallback?(frame)
+          else
+            @debug? "Unhandled frame: #{frame}"
+    @ws.onclose   = =>
       msg = "Whoops! Lost connection to #{@ws.url}"
       @debug?(msg)
       @_cleanUp()
       errorCallback?(msg)
-    @ws.onopen = =>
+    @ws.onopen    = =>
       @debug?('Web Socket Opened...')
       headers["accept-version"] = Stomp.VERSIONS.supportedVersions()
       headers["heart-beat"] = [@heartbeat.outgoing, @heartbeat.incoming].join(',')
@@ -315,12 +309,12 @@ class Client
   # [SEND Frame](http://stomp.github.com/stomp-specification-1.1.html#SEND)
   #
   # * `destination` is MANDATORY.
-  send: (destination, headers = {}, body = '') ->
+  send: (destination, headers={}, body='') ->
     headers.destination = destination
     @_transmit "SEND", headers, body
 
   # [SUBSCRIBE Frame](http://stomp.github.com/stomp-specification-1.1.html#SUBSCRIBE)
-  subscribe: (destination, callback, headers = {}) ->
+  subscribe: (destination, callback, headers={}) ->
     # for convenience if the `id` header is not set, we create a new one for this client
     # that will be returned to be able to unsubscribe this subscription
     unless headers.id
@@ -330,10 +324,10 @@ class Client
     @_transmit "SUBSCRIBE", headers
     client = this
     return {
-    id: headers.id
+      id: headers.id
 
-    unsubscribe: ->
-      client.unsubscribe headers.id
+      unsubscribe: ->
+        client.unsubscribe headers.id
     }
 
   # [UNSUBSCRIBE Frame](http://stomp.github.com/stomp-specification-1.1.html#UNSUBSCRIBE)
@@ -362,13 +356,13 @@ class Client
     }
     client = this
     return {
-    id: txid
-    commit: ->
-      client.commit txid
-    abort: ->
-      client.abort txid
+      id: txid
+      commit: ->
+        client.commit txid
+      abort: ->
+        client.abort txid
     }
-
+  
   # [COMMIT Frame](http://stomp.github.com/stomp-specification-1.1.html#COMMIT)
   #
   # * `transaction` is MANDATORY.
@@ -383,7 +377,7 @@ class Client
     @_transmit "COMMIT", {
       transaction: transaction
     }
-
+  
   # [ABORT Frame](http://stomp.github.com/stomp-specification-1.1.html#ABORT)
   #
   # * `transaction` is MANDATORY.
@@ -398,7 +392,7 @@ class Client
     @_transmit "ABORT", {
       transaction: transaction
     }
-
+  
   # [ACK Frame](http://stomp.github.com/stomp-specification-1.1.html#ACK)
   #
   # * `messageID` & `subscription` are MANDATORY.
@@ -442,8 +436,8 @@ class Client
 # ##The `Stomp` Object
 Stomp =
 
-# Version of the JavaScript library. This can be used to check what has
-# changed in the release notes
+  # Version of the JavaScript library. This can be used to check what has
+  # changed in the release notes
   libVersion: "2.0.0-next"
 
   VERSIONS:
@@ -451,12 +445,12 @@ Stomp =
     V1_1: '1.1'
     V1_2: '1.2'
 
-  # Versions of STOMP specifications supported
+    # Versions of STOMP specifications supported
     supportedVersions: ->
       '1.1,1.0'
 
-# This method creates a WebSocket client that is connected to
-# the STOMP server located at the url.
+  # This method creates a WebSocket client that is connected to
+  # the STOMP server located at the url.
   client: (url, protocols = ['v10.stomp', 'v11.stomp']) ->
     # This is a hack to allow another implementation than the standard
     # HTML5 WebSocket class.
@@ -473,14 +467,14 @@ Stomp =
     ws = new klass(url, protocols)
     new Client ws
 
-# This method is an alternative to `Stomp.client()` to let the user
-# specify the WebSocket to use (either a standard HTML5 WebSocket or
-# a similar object).
+  # This method is an alternative to `Stomp.client()` to let the user
+  # specify the WebSocket to use (either a standard HTML5 WebSocket or
+  # a similar object).
   over: (ws) ->
     new Client ws
 
-# For testing purpose, expose the Frame class inside Stomp to be able to
-# marshall/unmarshall frames
+  # For testing purpose, expose the Frame class inside Stomp to be able to
+  # marshall/unmarshall frames
   Frame: Frame
 
 # # `Stomp` object exportation

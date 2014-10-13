@@ -5,28 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>scaling-software</groupId>
-        <artifactId>y-axis</artifactId>
+        <groupId>doge-microservice</groupId>
+        <artifactId>core</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <name>scaling-software:y-axis:config-service</name>
-
-    <artifactId>config-service</artifactId>
-
+    <artifactId>eureka-server</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-config-server</artifactId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-
     </dependencies>
-
-
 </project>

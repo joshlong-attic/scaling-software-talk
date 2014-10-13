@@ -1,23 +1,18 @@
 Stomp = require('./stomp')
-net = require('net')
+net   = require('net')
 
-wrapTCP = (port, host) ->
+wrapTCP= (port, host) ->
   socket = null
 
   ws = {
     url: 'tcp:// ' + host + ':' + port
-    send: (d) ->
-      socket.write(d)
-    close: ->
-      socket.end()
+    send: (d) -> socket.write(d)
+    close: -> socket.end()
   }
 
-  socket = net.connect port, host, (e) ->
-    ws.onopen()
-  socket.on 'error', (e) ->
-    ws.onclose?(e)
-  socket.on 'close', (e) ->
-    ws.onclose?(e)
+  socket = net.connect port, host, (e) -> ws.onopen()
+  socket.on 'error', (e) -> ws.onclose?(e)
+  socket.on 'close', (e) -> ws.onclose?(e)
   socket.on 'data', (data) ->
     event = {
       'data': data.toString()
@@ -26,27 +21,23 @@ wrapTCP = (port, host) ->
 
   return ws
 
-wrapWS = (url) ->
+wrapWS= (url) ->
   WebSocketClient = require('websocket').client
 
   connection = null
 
   ws = {
     url: url
-    send: (d) ->
-      connection.sendUTF(d)
-    close: ->
-      connection.close()
+    send: (d) -> connection.sendUTF(d)
+    close: ->connection.close()
   }
-
+  
   socket = new WebSocketClient()
   socket.on 'connect', (conn) ->
     connection = conn
     ws.onopen()
-    connection.on 'error', (error) ->
-      ws.onclose?(error)
-    connection.on 'close', ->
-      ws.onclose?(error)
+    connection.on 'error', (error) -> ws.onclose?(error)
+    connection.on 'close', -> ws.onclose?(error)
     connection.on 'message', (message) ->
       if message.type == 'utf8'
         event = {

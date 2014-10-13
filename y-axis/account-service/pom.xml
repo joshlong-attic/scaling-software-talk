@@ -5,12 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>scaling-software</groupId>
-        <artifactId>y-axis</artifactId>
+        <groupId>doge-microservice</groupId>
+        <artifactId>core</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <name>scaling-software:y-axis:account-service</name>
-
 
     <artifactId>account-service</artifactId>
 

@@ -5,12 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>scaling-software</groupId>
-        <artifactId>y-axis</artifactId>
+        <groupId>doge-microservice</groupId>
+        <artifactId>core</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
-    <name>scaling-software:y-axis:doge-service</name>
 
     <artifactId>doge-service</artifactId>
 
@@ -40,6 +38,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
+
 
 
     </dependencies>

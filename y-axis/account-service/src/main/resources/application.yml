@@ -1,4 +1,7 @@
 
+spring:
+  application:
+    name: accounts
 
 server:
   port: 8081
