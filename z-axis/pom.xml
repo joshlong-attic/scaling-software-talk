@@ -14,8 +14,7 @@
     <name>scaling-software:z-axis</name>
 
     <modules>
-        <module>redis</module>
-        <module>neo4j</module>
+         <module>neo4j</module>
         <module>mongodb</module>
     </modules>
 
